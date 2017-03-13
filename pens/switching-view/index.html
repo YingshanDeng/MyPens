@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>switching view</title>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.scene {
+			position: relative;
+			width: 100%;
+			height: 300px;
+
+			background-color: gray;
+		}
+
+		.panel {
+			width: 100%;
+			height: 100%;
+		}
+		.item {
+			position: absolute;
+			top: 0;
+			width: 50%;
+			height: 100%;
+			overflow: hidden;
+		}
+		.item.l {
+			left: 0;
+			background: #6AE82F;
+		}
+		.item.r {
+			right: 0;
+			background: #B8E720;
+		}
+
+		.content {
+			position: absolute;
+			top: 0;
+			width: 100vw;
+			height: 100%;
+		}
+		.item.l .content {
+			left: 0;
+		}
+		.item.r .content {
+			right: 0;
+		}
+
+		.item.r .content h2 {
+			color: #fff;
+		}
+
+		.nav {
+			position: absolute;
+			z-index: 3;
+			left: 50%;
+			top: 0;
+			width: 4%;
+			height: 100%;
+			margin-left: -2%;
+		}
+		.nav::before {
+	 		content: "";
+	 		position: absolute;
+	 		left: 50%;
+	 		top: 0;
+	 		width: 2px;
+	 		height: 100%;
+	 		margin-left: -1px;
+	 		background: #fff;
+		}
+		.act {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			background: rgba(255,255,255,.4);
+			color: #fff;
+			border: 2px solid #fff;
+			border-radius: 50%;
+			overflow: hidden;
+			box-sizing: border-box;
+			width: 40px;
+			height: 40px;
+			margin: -20px 0 0 -20px;
+			cursor: col-resize;
+		}
+
+		.act b {
+			position: absolute;
+			top: 0;
+			height: 100%;
+			width: 39%;
+			font-weight: 200;
+		}
+		.act b::before {
+			position: absolute;
+			content: "";
+			top: 50%;
+			left: 50%;
+			width: 10px;
+			height: 10px;
+			margin-top: -6px;
+			border: 1px solid #fff;
+			box-sizing: border-box;
+			transform: rotate(45deg);
+		}
+		b.l {
+			left: 0;
+		}
+		b.l::before {
+			margin-left: 1px;
+			border-right: none;
+			border-top: none;
+		}
+		b.r {
+			right: 0;
+		}
+		b.r::before {
+			margin-left: -11px;
+			border-left: none;
+			border-bottom: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="scene">
+		<div class="panel">
+			<div class="item l">
+				<div class="content">
+					<h2>Hello World! This is a demo of Switching Views🤓</h2>
+				</div>
+			</div>
+			<div class="item r">
+				<div class="content">
+					<h2>Hello World! This is a demo of Switching Views🤓</h2>
+				</div>
+			</div>
+		</div>
+		<div class="nav">
+			<p class="act">
+				<b class="l"></b>
+				<b class="r"></b>
+			</p>
+		</div>
+	</div>
+
+	<script>
+	var sceneEle = document.querySelector('.scene'),
+		navEle = document.querySelector('div.nav'),
+		actionEle = document.querySelector('p.act');
+
+	var itemL = document.querySelector('div.item.l'),
+		itemR = document.querySelector('div.item.r');
+
+	var _moveHandler = (event) => {
+		let x = event.pageX,
+			n = x - sceneEle.offsetLeft;
+		if (0 < n && n < sceneEle.offsetWidth) {
+			navEle.style['left'] = `${n}px`;
+
+			var _lPercent = n / sceneEle.offsetWidth * 100,
+				_rPercent = 100 - _lPercent;
+			itemL.style['width'] = `${_lPercent}%`;
+			itemR.style['width'] = `${_rPercent}%`;
+		}
+	}
+	actionEle.addEventListener('mousedown', (evt) => {
+		evt.preventDefault();
+		document.body.addEventListener('mousemove', _moveHandler);
+	});
+	document.body.addEventListener('mouseup', (evt) => {
+		evt.preventDefault();
+		document.body.removeEventListener('mousemove', _moveHandler);
+	})
+
+	window.addEventListener('resize', (evt) => {
+		// adjust nav positon
+		navEle.style['left'] = `${itemL.offsetWidth}px`
+	})
+	</script>
+</body>
+</html>
