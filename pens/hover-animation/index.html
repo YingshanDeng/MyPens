@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>hover animation</title>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.loader {
+			position: relative;
+			cursor: pointer;
+			-webkit-user-select: none;
+			   -moz-user-select: none;
+			    -ms-user-select: none;
+			        user-select: none;
+		}
+		.loader:hover .loader__mask,
+		.loader:hover .loader__text--progress {
+			transform: translateX(0);
+		}
+		.loader__mask {
+			position: absolute;
+			overflow: hidden;
+			pointer-events: none;
+
+			transform: translateX(-100%);
+			transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+		}
+		.loader__text {
+			font-size: 2rem;
+		}
+		.loader__text--progress {
+			transform: translateX(100%);
+			transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+		}
+		.loader__text--preload {
+			color: rgba(22, 22, 22, 0.1);
+		}
+	</style>
+</head>
+<body>
+	<div class="loader">
+		<div class="loader__mask">
+			<div class="loader__text loader__text--progress">hover me</div>
+		</div>
+		<div class="loader__text loader__text--preload">hover me</div>
+	</div>
+</body>
+</html>
